@@ -1,0 +1,9 @@
+
+{
+  "appId": "com.royalpay.app",
+  "appName": "Royal Pay",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
