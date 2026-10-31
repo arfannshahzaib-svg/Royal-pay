@@ -1,0 +1,17 @@
+
+{
+  "name": "royal-pay",
+  "version": "1.0.0",
+  "description": "Royal Pay Demo App",
+  "main": "index.html",
+  "scripts": {
+    "build": "mkdir -p www && cp index.html style.css script.js www/"
+  },
+  "dependencies": {
+    "@capacitor/core": "^7.4.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.3",
+    "@capacitor/android": "^7.4.3"
+  }
+}
