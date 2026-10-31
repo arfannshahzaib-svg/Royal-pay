@@ -1,0 +1,28 @@
+name: Royal Pay
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Royal Pay Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get Source Code
+        uses: actions/checkout@v4
+
+      - name: Check Project Files
+        run: |
+          echo "Royal Pay project is ready"
+          ls -la
+
+      - name: Build Complete
+        run: |
+          echo "Royal Pay workflow completed successfully"
