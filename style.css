@@ -1,0 +1,163 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+:root {
+  --blue: #071b46;
+  --blue2: #102e68;
+  --gold: #e4b84f;
+  --white: #ffffff;
+  --light: #f3f5fa;
+}
+
+body {
+  background: var(--light);
+  color: var(--blue);
+  min-height: 100vh;
+}
+
+header {
+  background: linear-gradient(135deg, #061638, #173d79);
+  color: white;
+  padding: 25px 18px;
+  text-align: center;
+  border-bottom: 4px solid var(--gold);
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: 3px;
+}
+
+header p {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #e5e9f4;
+}
+
+.container {
+  width: 92%;
+  max-width: 500px;
+  margin: 25px auto;
+}
+
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 5px 20px rgba(0,0,0,.08);
+  border: 1px solid #e5e9f2;
+}
+
+h2 {
+  color: var(--blue);
+  margin-bottom: 18px;
+  font-size: 21px;
+}
+
+input, select {
+  width: 100%;
+  padding: 14px;
+  margin: 9px 0;
+  border: 1px solid #d8deea;
+  border-radius: 10px;
+  outline: none;
+  font-size: 15px;
+  background: #fff;
+}
+
+input:focus, select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px rgba(228,184,79,.15);
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0a2251, #1a4383);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: #173d79;
+}
+
+.gold-btn {
+  background: linear-gradient(135deg, #c38d24, #f0cc70);
+  color: #102044;
+}
+
+.dashboard {
+  background: linear-gradient(135deg, #071b46, #174887);
+  color: white;
+  border-radius: 20px;
+  padding: 25px;
+  margin-bottom: 20px;
+  border: 1px solid var(--gold);
+}
+
+.dashboard h2 {
+  color: var(--gold);
+}
+
+.balance {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 15px 0;
+}
+
+.menu {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.menu-item {
+  background: white;
+  border-radius: 14px;
+  padding: 20px 10px;
+  text-align: center;
+  box-shadow: 0 3px 12px rgba(0,0,0,.06);
+  font-weight: bold;
+  color: var(--blue);
+  border: 1px solid #e6e9f0;
+}
+
+.menu-item span {
+  display: block;
+  font-size: 25px;
+  margin-bottom: 9px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #7a8497;
+  font-size: 12px;
+}
+
+@media (max-width: 360px) {
+  .logo {
+    font-size: 25px;
+  }
+  .container {
+    width: 94%;
+  }
+}
