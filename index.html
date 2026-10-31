@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Royal Pay</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#eef3fa;color:#172b4d}
+header{background:linear-gradient(120deg,#10264c,#2563eb);color:white;padding:25px 18px;border-radius:0 0 25px 25px}
+header h1{margin:0;font-size:27px;letter-spacing:2px}
+header p{margin:7px 0 0;color:#dce8ff}
+.container{max-width:500px;margin:auto;padding:18px}
+.card{background:white;border-radius:16px;padding:18px;margin:14px 0;box-shadow:0 4px 15px #10264c12}
+.balance{background:linear-gradient(120deg,#142d59,#2563eb);color:white}
+.balance small{opacity:.8}
+.balance h2{font-size:30px;margin:10px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{background:white;border:0;border-radius:15px;padding:20px 10px;text-align:center;box-shadow:0 3px 12px #0000000c;color:#19345f;font-weight:bold;cursor:pointer}
+.tile span{display:block;font-size:25px;margin-bottom:9px}
+input,select{width:100%;padding:13px;border:1px solid #d7dfec;border-radius:9px;margin:7px 0 13px;font-size:15px}
+button{border:0;background:#2563eb;color:white;padding:13px;border-radius:9px;font-weight:bold;cursor:pointer}
+.full{width:100%}
+.secondary{background:#142d59}
+.hidden{display:none}
+h3{margin-top:0}
+.muted{color:#718096;font-size:13px}
+nav{display:flex;justify-content:space-around;background:white;padding:14px;position:sticky;bottom:0;box-shadow:0 -3px 12px #00000010}
+nav button{padding:10px;background:transparent;color:#1c3764}
+.item{padding:12px 0;border-bottom:1px solid #edf0f5}
+footer{text-align:center;color:#718096;font-size:12px;padding:25px}
+</style>
+</head>
+<body>
+<header>
+<h1>ROYAL PAY</h1>
+<p>Digital Payment Portal</p>
+</header>
+
+<div class="container">
+
+<section id="auth">
+<div class="card">
+<h3>Welcome to Royal Pay</h3>
+<p class="muted">Create your account or login</p>
+<button class="full" onclick="showAuth('register')">Create Account</button>
+<br><br>
+<button class="full secondary" onclick="showAuth('login')">Login</button>
+</div>
+
+<div class="card hidden" id="register">
+<h3>Create Account</h3>
+<input id="newName" placeholder="Full Name">
+<input id="newUser" placeholder="Username">
+<input id="newPass" type="password" placeholder="Password">
+<button class="full" onclick="registerUser()">Create Account</button>
+</div>
+
+<div class="card hidden" id="login">
+<h3>Login</h3>
+<input id="loginUser" placeholder="Username">
+<input id="loginPass" type="password" placeholder="Password">
+<button class="full" onclick="loginUser()">Login</button>
+</div>
+</section>
+
+<section id="dashboard" class="hidden">
+<div class="card balance">
+<small>My Wallet Balance (Demo)</small>
+<h2 id="balance">Rs. 0.00</h2>
+<p id="welcome">Welcome</p>
+</div>
+
+<div class="grid">
+<button class="tile" onclick="openPage('wallet')"><span>👛</span>My Wallet</button>
+<button class="tile" onclick="openPage('send')"><span>💸</span>Send Money</button>
+<button class="tile" onclick="openPage('history')"><span>📜</span>History</button>
+<button class="tile" onclick="openPage('profile')"><span>👤</span>My Profile</button>
+<button class="tile" onclick="openPage('support')"><span>🎧</span>Support</button>
+<button class="tile" onclick="logout()"><span>🚪</span>Logout</button>
+</div>
+</section>
+
+<section id="wallet" class="card hidden">
+<h3>My Wallet</h3>
+<p>Demo Balance</p>
+<h2 id="walletBalance">Rs. 0.00</h2>
+<p class="muted">No real funds are stored or transferred.</p>
+<button class="secondary" onclick="openPage('dashboard')">Back</button>
+</section>
+
+<section id="send" class="card hidden">
+<h3>Send Money</h3>
+<input id="receiver" placeholder="Receiver Username">
+<input id="amount" type="number" min="1" placeholder="Amount">
+<p class="muted">Demo request only. No real money transfer.</p>
+<button class="full" onclick="sendMoney()">Submit Demo Request</button>
+<br><br>
+<button class="secondary" onclick="openPage('dashboard')">Back</button>
+</section>
+
+<section id="history" class="card hidden">
+<h3>Transaction History</h3>
+<div id="transactions">No transactions yet.</div>
+<button class="secondary" onclick="openPage('dashboard')">Back</button>
+</section>
+
+<section id="profile" class="card hidden">
+<h3>My Profile</h3>
+<p id="profileName"></p>
+<p id="profileUser"></p>
+<p class="muted">Account status: Demo</p>
+<button class="secondary" onclick="openPage('dashboard')">Back</button>
+</section>
+
+<section id="support" class="card hidden">
+<h3>Royal Pay Support</h3>
+<p>For assistance, contact the Royal Pay support team.</p>
+<p class="muted">Add your official support email or contact details here.</p>
+<button class="secondary" onclick="openPage('dashboard')">Back</button>
+</section>
+
+</div>
+
+<nav id="bottomNav" class="hidden">
+<button onclick="openPage('dashboard')">Home</button>
+<button onclick="openPage('wallet')">Wallet</button>
+<button onclick="openPage('history')">History</button>
+</nav>
+
+<footer>Royal Pay Support Team</footer>
+
+<script>
+let users = JSON.parse(localStorage.getItem("royalUsers") || "[]");
+let transactions = JSON.parse(localStorage.getItem("royalTransactions") || "[]");
+let currentUser = localStorage.getItem("royalCurrentUser") || "";
+
+function save(){
+ localStorage.setItem("royalUsers",JSON.stringify(users));
+ localStorage.setItem("royalTransactions",JSON.stringify(transactions));
+}
+function showAuth(type){
+ document.getElementById("register").classList.toggle("hidden",type!=="register");
+ document.getElementById("login").classList.toggle("hidden",type!=="login");
+}
+function registerUser(){
+ let name=document.getElementById("newName").value.trim();
+ let username=document.getElementById("newUser").value.trim();
+ let password=document.getElementById("newPass").value;
+ if(!name||!username||!password){alert("Please fill all fields");return;}
+ if(users.some(u=>u.username.toLowerCase()===username.toLowerCase())){
+ alert("Username already exists");return;
+ }
+ users.push({name,username,password,balance:0});
+ save();
+ alert("Demo account created. You can now login.");
+ showAuth("login");
+}
+function loginUser(){
+ let username=document.getElementById("loginUser").value.trim();
+ let password=document.getElementById("loginPass").value;
+ let user=users.find(u=>u.username===username&&u.password===password);
+ if(!user){alert("Invalid login details");return;}
+ currentUser=username;
+ localStorage.setItem("royalCurrentUser",username);
+ showDashboard();
+}
+function showDashboard(){
+ let user=users.find(u=>u.username===currentUser);
+ if(!user){logout();return;}
+ document.getElementById("auth").classList.add("hidden");
+ document.getElementById("dashboard").classList.remove("hidden");
+ document.getElementById("bottomNav").classList.remove("hidden");
+ document.getElementById("welcome").textContent="Welcome, "+user.name;
+ updateBalance();
+ openPage("dashboard");
+}
+function updateBalance(){
+ let user=users.find(u=>u.username===currentUser);
+ if(!user)return;
+ document.getElementById("balance").textContent="Rs. "+Number(user.balance).toFixed(2);
+ document.getElementById("walletBalance").textContent="Rs. "+Number(user.balance).toFixed(2);
+}
+function openPage(page){
+ ["dashboard","wallet","send","history","profile","support"].forEach(id=>{
+ document.getElementById(id).classList.add("hidden");
+ });
+ document.getElementById(page).classList.remove("hidden");
+ if(page==="profile"){
+ let u=users.find(x=>x.username===currentUser);
+ document.getElementById("profileName").textContent="Name: "+u.name;
+ document.getElementById("profileUser").textContent="Username: "+u.username;
+ }
+ if(page==="history")showHistory();
+}
+function sendMoney(){
+ let receiver=document.getElementById("receiver").value.trim();
+ let amount=Number(document.getElementById("amount").value);
+ if(!receiver||!Number.isFinite(amount)||amount<=0){
+ alert("Enter valid details");return;
+ }
+ alert("Demo request received. No money has been transferred.");
+ document.getElementById("receiver").value="";
+ document.getElementById("amount").value="";
+}
+function showHistory(){
+ let own=transactions.filter(t=>t.username===currentUser);
+ document.getElementById("transactions").innerHTML=own.length?
+ own.map(t=>'<div class="item">'+t.note+'<br><small>'+t.date+'</small></div>').join("")
+ :"No transactions yet.";
+}
+function logout(){
+ currentUser="";
+ localStorage.removeItem("royalCurrentUser");
+ ["dashboard","wallet","send","history","profile","support"].forEach(id=>document.getElementById(id).classList.add("hidden"));
+ document.getElementById("auth").classList.remove("hidden");
+ document.getElementById("bottomNav").classList.add("hidden");
+}
+if(currentUser)showDashboard();
+</script>
+</body>
+</html>
